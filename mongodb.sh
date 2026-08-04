@@ -17,5 +17,5 @@ validate(){
 
 
 
-dnf install nginx -y
+dnf remove nginx -y
 validate $? "installing mongo "
