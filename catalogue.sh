@@ -37,7 +37,7 @@ else
  echo "roboshop user is already exist skipping."
 fi
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.amazonaws.com/catalogue.v3.zip
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
 validate $? "downloading catalogue is"
 
 cd /app
