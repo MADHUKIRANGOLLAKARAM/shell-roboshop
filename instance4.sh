@@ -15,14 +15,14 @@ do echo "creating $instance instance..."
     --output text)
   
   if [ "$instance" == "frontend" ]; then
-    IP=(
+    IP=$(
         aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query "Instances[0].PublicIpAddress"
         --output text
     )
   else
-    Ip=$(
+    IP=$(
         aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
         --query Instance[0].PrivateIpAddreee \
@@ -30,5 +30,5 @@ do echo "creating $instance instance..."
     )
     fi
 
-    echo "$IP"
+    echo "ip address is : $IP"
 done
