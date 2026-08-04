@@ -12,9 +12,9 @@ fi
 
 validate(){
     if [ $1 -ne 0 ]; then
-        echo "$2 is failure..."
+        echo "$2 is failure..." | tee -a $LOG_FILE
     else
-        echo "$2 is success..."
+        echo "$2 is success..." | tee -a $LOG_FILE
     fi
 }
 
@@ -22,7 +22,7 @@ validate(){
 cp mongodb.repo /etc/yum.repos.d/mongo.repo
 validate $? "copying mongo repo "
 
-dnf install mongodb-org -y
+dnf install mongodb-org -y &>> $LOG_FILE
 validate $? "installing mongodb "
 
 systemctl enable mongod
