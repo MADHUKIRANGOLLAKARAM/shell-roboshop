@@ -20,9 +20,9 @@ validate(){
 dnf module disable nodejs -y &>> $LOG_FILE
 validate $? "disable default version..."
 
-dnf module enable nodejs :20 -y
+dnf module enable nodejs:20 -y
 validate $? "Enableing latest version.."
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 validate $? "Installing nodejs"
 
