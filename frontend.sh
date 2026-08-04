@@ -4,7 +4,7 @@ user_id=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/s0.log"
-
+SCRIPT_DIR=$PWD
 if [ $user_id -ne 0 ]; then
     echo "you are not an root user"
     exit 1
@@ -43,3 +43,9 @@ validate $? "going to html directory "
 
 unzip /tmp/frontend.zip &>> $LOG_FILE
 validate $? "unzipping data "
+
+cp $SCRIPT_DIR/frontend.conf /etc/nginx/nginx.conf
+validate $? "copying conf data"
+
+systemctl restart nginx
+validate $? "restarting nginx "
