@@ -9,7 +9,7 @@ do
     --security-group-ids $SG_ID \
     --instance-type t3.micro \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
-    --query 'Instances[0].PrivateIpAddress' \
+    --query 'Instances[0].[InstanceId,PrivateIpAddress]' \
     --output text
 
 done
