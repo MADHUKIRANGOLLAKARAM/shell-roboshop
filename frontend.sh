@@ -6,7 +6,7 @@ mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/s0.log"
 
 if [ $user_id -ne 0 ]; then
-    echo "ypu are not an user"
+    echo "you are not an root user"
     exit 1
 fi
 validate(){
@@ -17,16 +17,17 @@ validate(){
     fi
 }
 
-dnf module disable nginx -y
+dnf module disable nginx -y &>> $LOG_FILE
 validate $? "disableing default nginx version..."
 
-dnf module enable nginx:1.24 -y
+dnf module enable nginx:1.24 -y &>> $LOG_FILE
 validate $? "enableing latest nginx "
 
-dnf install nginx -y
+dnf install nginx -y &>> $LOG_FILE
 validate $? "installing nodejs "
 
-systemctl enable nginx
+systemctl enable nginx &>> $LOG_FILE
 validate $? "enable nginx"
-systemctl start nginx
+
+systemctl start nginx &>> $LOG_FILE
 validate $? "start nginx"
