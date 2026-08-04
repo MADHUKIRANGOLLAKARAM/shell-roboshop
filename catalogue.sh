@@ -32,7 +32,7 @@ validate $? "creating app directory is "
 id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    validate $? "creating roboshop user is "
 else
  echo "roboshop user is already exist skipping."
 fi
-validate $? "creating roboshop user is "
