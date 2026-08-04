@@ -32,14 +32,14 @@ validate $? "enable nginx"
 systemctl start nginx &>> $LOG_FILE
 validate $? "start nginx"
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $LOG_FILE
 validate $? "removing default content "
 
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>> $LOG_FILE
 validate $? "Downloading data "
 
-cd /usr/shar/nginx/html
+cd /usr/share/nginx/html &>> $LOG_FILE
 validate $? "going to html directory "
 
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>> $LOG_FILE
 validate $? "unzipping data "
