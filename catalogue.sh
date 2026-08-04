@@ -29,5 +29,9 @@ validate $? "Installing nodejs"
 mkdir -p /app
 validate $? "creating app directory is "
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+id roboshop &>> $LOG_FILE
+if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+else
+ echo "roboshop user is already exist skipping."
 validate $? "creating roboshop user is "
