@@ -3,6 +3,7 @@ user_id=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/$0.log"
+SCRIPT_DIR=$PWD
 
 if [ $user_id -ne 0 ]; then
     echo "please enter root user environment..."  | tee -a $LOG_FILE
@@ -27,18 +28,18 @@ dnf install nodejs -y &>> $LOG_FILE
 validate $? "Installing nodejs"
 
 mkdir -p /app
-validate $? "creating app directory is "
+validate $? "creating app directory "
 
 id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-    validate $? "creating roboshop user is "
+    validate $? "creating roboshop user  "
 else
  echo "roboshop user is already exist skipping."
 fi
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
-validate $? "downloading catalogue is"
+validate $? "downloading catalogue "
 
 cd /app
 validate $? "moving to app directory "
@@ -48,3 +49,14 @@ validate $? "removing everything "
 
 unzip /tmp/catalogue.zip
 validate $? "unzipping the code"
+
+npm install &>> $LOG_FILE
+validate $? "Installing Dependencies "
+
+cp $SCRIPT_DIR/catalogue.repo /etc/systemd/system/catalogue.service
+validate $? "created systemctl services "
+
+systemctl daemon-reload
+systemctl enable catalogue
+systemctl start catalogue
+validate $? "start&enableing the catalogue "
