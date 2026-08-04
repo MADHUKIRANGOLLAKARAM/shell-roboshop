@@ -1,8 +1,8 @@
 #!/bin/bash
 user_id=$(id -u)
-$LOGS_FOLDER="/var/log/shell-roboshop"
+LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
-$LOG_FILE="$LOG_FOLDER/$0.log"
+LOG_FILE="$LOG_FOLDER/$0.log"
 
 if [ $user_id -ne 0 ]; then
     echo "please enter root user environment..."  | tee -a $LOG_FILE
