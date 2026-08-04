@@ -3,7 +3,7 @@
 user_id=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
-LOG_FILE="$LOGS_FOLDER/s0.log"
+LOG_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
 if [ $user_id -ne 0 ]; then
     echo "you are not an root user"
