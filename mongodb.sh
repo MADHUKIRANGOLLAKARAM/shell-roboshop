@@ -1,7 +1,7 @@
 #!/bin/bash
-user-id=$(id -u)
+user_id=$(id -u)
 
-if [ $user-id -ne 0 ]; then
+if [ $user_id -ne 0 ]; then
     echo "please enter root environment.."
     exit 1
 fi
@@ -18,4 +18,4 @@ validate(){
 
 
 dnf install mongodb-org -y
-valiadte $? "installing mongo "
+validate $? "installing mongo "
