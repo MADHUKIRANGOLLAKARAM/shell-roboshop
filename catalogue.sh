@@ -1,4 +1,4 @@
-#!/bin/bash
+a#!/bin/bash
 user_id=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
@@ -66,3 +66,14 @@ validate $? "copying mongo repo"
 
 dnf install mongodb-mongosh -y
 validate $? "Installing mongodb client"
+
+INDEX=$(mongosh --host 172.31.17.24 --quiet --eval 'db.getMongo().getDBNames().indexof("catalogue")')
+if [ $INDEX -le 0 ]; then
+    mongosh --host 172.31.17.24 </app/db/master-data.js
+    validate $? "Loading products"
+else
+    echo "products already loaded skipping now..."
+fi
+
+systemctl restart catalogue
+validate $? "restarting catalogue "
