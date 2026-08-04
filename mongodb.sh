@@ -1,8 +1,8 @@
 #!/bin/bash
 user_id=$(id -u)
-$LOGS_FOLDER="var/log/shell-roboshop"
+LOGS_FOLDER="var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
-$LOG_FILE="$LOGS_FOLDER/$0.log"
+LOG_FILE="$LOGS_FOLDER/$0.log"
 
 
 if [ $user_id -ne 0 ]; then
@@ -22,7 +22,7 @@ validate(){
 cp mongodb.repo /etc/yum.repos.d/mongo.repo
 validate $? "copying mongo repo "
 
-dnf install mongo-org -y
+dnf install mongodb-org -y
 validate $? "installing mongodb "
 
 systemctl enable mongod
