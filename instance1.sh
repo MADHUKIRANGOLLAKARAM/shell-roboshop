@@ -4,7 +4,7 @@ AMI_ID="ami-0220d79f3f480ecf5"
 
 for instance in $@
 do 
-    aws runn ec2-instances \
+    aws ec2 run-instances \
     --image-ids $AMI_ID \
     --security-group-ids $SG_ID \
     --instance-type t3.micro \
