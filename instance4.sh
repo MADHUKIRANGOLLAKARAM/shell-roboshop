@@ -25,7 +25,7 @@ do echo "creating $instance instance..."
     IP=$(
         aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
-        --query "Reservations[0].Instance[0].PrivateIpAddress" \
+        --query "Reservations[0].Instances[0].PrivateIpAddress" \
         --output text
     )
     fi
