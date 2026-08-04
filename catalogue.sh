@@ -36,3 +36,15 @@ if [ $? -ne 0 ]; then
 else
  echo "roboshop user is already exist skipping."
 fi
+
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.amazonaws.com/catalogue.v3.zip
+validate $? "downloading catalogue is"
+
+cd /app
+validate $? "moving to app directory "
+
+rm -rf /app/* &>> $LOG_FILE
+validate $? "removing everything "
+
+unzip /tmp/catalogue.zip
+validate $? "unzipping the code"
