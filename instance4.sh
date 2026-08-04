@@ -18,14 +18,14 @@ do echo "creating $instance instance..."
     IP=$(
         aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
-        --query "Instances[0].PublicIpAddress"
+        --query "Instances[0].PublicIpAddress" \
         --output text
     )
   else
     IP=$(
         aws ec2 describe-instances \
         --instance-ids $INSTANCE_ID \
-        --query Instance[0].PrivateIpAddreee \
+        --query "Reservations[0].Instance[0].PrivateIpAddress" \
         --output text
     )
     fi
