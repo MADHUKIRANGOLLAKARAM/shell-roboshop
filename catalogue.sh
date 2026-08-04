@@ -26,3 +26,8 @@ validate $? "Enableing latest version.."
 dnf install nodejs -y &>> $LOG_FILE
 validate $? "Installing nodejs"
 
+mkdir -p /app
+validate $? "creating app directory is "
+
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+validate $? "creating roboshop user is "
