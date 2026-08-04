@@ -1,6 +1,6 @@
 #!/bin/bash
 user_id=$(id -u)
-LOGS_FOLDER="var/log/shell-roboshop"
+LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/$0.log"
 
