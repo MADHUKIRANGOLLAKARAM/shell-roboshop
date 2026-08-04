@@ -60,3 +60,9 @@ systemctl daemon-reload
 systemctl enable catalogue
 systemctl start catalogue
 validate $? "start&enableing the catalogue "
+
+cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
+validate $? "copying mongo repo"
+
+dnf install mongodb-mongosh -y
+validate $? "Installing mongodb client"
