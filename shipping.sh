@@ -18,7 +18,7 @@ validate(){
     fi
 }
 
-dnf install maven -y
+dnf install maven -y &>> $LOG_FILE
 validate $? "installing maven "
 
 id roboshop &>> $LOG_FILE
@@ -32,7 +32,7 @@ fi
 mkdir -p /app
 validate $? "creating app directory "
 
-curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOG_FILE
+curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOG_FILE &>> $LOG_FILE
 validate $? "downloading user files "
 
 cd /app
@@ -41,17 +41,17 @@ validate $? "moving to app directory "
 rm -rf /app/*
 validate $? "remove everything "
 
-unzip /tmp/user.zip &>> $LOG_FILE
+unzip /tmp/user.zip &>> $LOG_FILE &>> $LOG_FILE
 validate $? "unzipping the code "
 
-mvn clean package
+mvn clean package &>> $LOG_FILE
 validate $? "Install dependencies "
 
 mv target/shipping-1.0.jar shipping.jar
 validate $? "moving a file to app directory "
 
 
-cp $SCRIPT_DIR/shipping.repo /etc/systemd/system/shipping.service
+cp $SCRIPT_DIR/shipping.repo /etc/systemd/system/shipping.service &>> $LOG_FILE
 validate $? "changing system services "
 
 systemctl daemon-reload
@@ -59,7 +59,7 @@ systemctl enable shipping &>> $LOG_FILE
 systemctl start shipping &>> $LOG_FILE
 validate $? "enable & start shipping  "
 
-dnf install mysql -y
+dnf install mysql -y &>> $LOG_FILE
 validate $? "installing mysql "
 
 mysql -h 172.31.18.195 -uroot -pRoboshop@1 -e 'use cities'
@@ -70,7 +70,7 @@ if [ $? -ne 0 ]; then
     validate $? "loading data to mysql "
 else
     echo -e "data is already loaded..."
-
+fi
 
 systemctl enable shipping &>> $LOG_FILE
 systemctl start shipping &>> $LOG_FILE
