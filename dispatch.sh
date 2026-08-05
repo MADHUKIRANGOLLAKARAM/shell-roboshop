@@ -17,7 +17,7 @@ validate(){
     fi
 }
 
-dnf install golang -y
+dnf install golang -y &>> $LOG_FILE
 validate $? "installing golang "
 
 id roboshop &>> $LOG_FILE
@@ -31,27 +31,27 @@ fi
 mkdir -p /app
 validate $? "creating app directory "
 
-curl -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip &>> $LOG_FILE &>> $LOG_FILE
+curl -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip &>> $LOG_FILE  
 validate $? "downloading user files "
 
 cd /app
 validate $? "moving to app directory "
 
-rm -rf /app/*
+rm -rf /app/* &>> $LOG_FILE
 validate $? "remove everything "
 
-unzip /tmp/dispatch.zip &>> $LOG_FILE &>> $LOG_FILE
+unzip /tmp/dispatch.zip &>> $LOG_FILE 
 validate $? "unzipping the code "
 
-go mod init dispatch
-go get 
-go build
+go mod init dispatch &>> $LOG_FILE
+go get  &>> $LOG_FILE
+go build &>> $LOG_FILE
 validate $? "change something "
 
-cp $SCRIPT_DIR/dispatch.repo /etc/systemd/system/dispatch.service
+cp $SCRIPT_DIR/dispatch.repo /etc/systemd/system/dispatch.service &>> $LOG_FILE
 validate $? "service settings "
 
 systemctl daemon-reload
-systemctl enable dispatch
-systemctl start dispatch
+systemctl enable dispatch &>> $LOG_FILE
+systemctl start dispatch &>> $LOG_FILE
 validate $? "enable & start dispatch"
