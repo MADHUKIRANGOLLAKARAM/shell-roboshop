@@ -47,7 +47,7 @@ validate $? "moving to app directory "
 rm -rf /app/* &>> $LOG_FILE
 validate $? "removing everything "
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOG_FILE
 validate $? "unzipping the code"
 
 npm install &>> $LOG_FILE
