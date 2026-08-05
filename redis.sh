@@ -24,14 +24,14 @@ validate $? "disable default version "
 dnf module enable redis:7 -y &>> $LOG_FILE
 validate $? "enable new version"
 
-dnf install redis -y
+dnf install redis -y &>> $LOG_FILE
 validate $? "installing redis "
 
 sed -i -e 's/127.0.0.1/0.0.0.0/g' -e 's/protected-mode.*/protected-mode no/' /etc/redis/redis.conf
 validate $? "allowing remote ports"
 
-systemctl enable redis
+systemctl enable redis &>> $LOG_FILE
 validate $? "enabling redis "
 
-systemctl start redis
+systemctl start redis &>> $LOG_FILE
 validate $? "starting redis "
