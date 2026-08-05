@@ -17,32 +17,32 @@ validate(){
     fi
 }
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 validate $? "disable default version "
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 validate $? "enable nodejs "
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 validate $? "installing nodejs "
 
 mkdir -p /app
 validate $? "creating app directory "
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
 validate $? "creating user "
 
 
-curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
 validate $? "downloading user files "
 
 cd /app
 valiadte $? "moving to app directory "
 
-unzip /tmp/user.zip
+unzip /tmp/user.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
-npm install
+npm install &>> $LOG_FILE
 validate $? "installing dependencies "
 
 
@@ -50,6 +50,6 @@ cp $SCRIPT_DIR/user.repo /etc/systemd/system/user.service
 validate $? "changing system services "
 
 systemctl daemon-reload
-systemctl enable user
-systemctl start user
+systemctl enable user &>> $LOG_FILE
+systemctl start user &>> $LOG_FILE
 validate $? "enable & start user  "
