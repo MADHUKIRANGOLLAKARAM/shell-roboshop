@@ -43,6 +43,9 @@ validate $? "downloading cart files "
 cd /app
 valiadte $? "moving to app directory "
 
+rm -rf /app/*
+validate $? "remove default content"
+
 unzip /tmp/cart.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
