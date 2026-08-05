@@ -35,6 +35,7 @@ if [ $? -ne 0 ]; then
     validate $? "creating user "
 else
     echo "user already exist"
+fi
 
 curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOG_FILE
 validate $? "downloading cart files "
