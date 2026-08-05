@@ -33,13 +33,13 @@ fi
 mkdir -p /app
 validate $? "creating app directory "
 
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>> $LOG_FILE &>> $LOG_FILE &>> $LOG_FILE
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>> $LOG_FILE
 validate $? "downloading user files "
 
 cd /app
 validate $? "moving to app directory "
 
-unzip /tmp/payment.zip &>> $LOG_FILE &>> $LOG_FILE &>> $LOG_FILE
+unzip /tmp/payment.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
 pip3 install -r requirements.txt &>> $LOG_FILE
