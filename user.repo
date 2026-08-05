@@ -5,6 +5,7 @@ Description=Catalogue Service
 User=roboshop
 Environment=MONGO=true
 Environment=MONGO_URL="mongodb://172.31.17.24:27017/catalogue"
+Environment=REDIS_URL="redis://172.31.29.26:6379/"
 ExecStart=/bin/node /app/server.js
 SyslogIdentifier=catalogue
 
