@@ -56,20 +56,20 @@ validate $? "Installing Dependencies "
 cp $SCRIPT_DIR/catalogue.repo /etc/systemd/system/catalogue.service
 validate $? "created systemctl services "
 
-systemctl daemon-reload
-systemctl enable catalogue
-systemctl start catalogue
+systemctl daemon-reload &>> $LOG_FILE
+systemctl enable catalogue &>> $LOG_FILE
+systemctl start catalogue &>> $LOG_FILE
 validate $? "start&enableing the catalogue "
 
 cp $SCRIPT_DIR/mongodb.repo /etc/yum.repos.d/mongo.repo
 validate $? "copying mongo repo"
 
-dnf install mongodb-mongosh -y
+dnf install mongodb-mongosh -y &>> $LOG_FILE
 validate $? "Installing mongodb client"
 
 INDEX=$(mongosh --host 172.31.17.24 --quiet --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 if [ $INDEX -lt 0 ]; then
-    mongosh --host 172.31.17.24 </app/db/master-data.js
+    mongosh --host 172.31.17.24 </app/db/master-data.js &>> $LOG_FILE
     validate $? "Loading products"
 else
     echo "products already loaded skipping now..."
