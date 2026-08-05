@@ -4,8 +4,8 @@ mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
 
-if [ $user_id -ne 0 ]; then
-    echo "please enter root user environment..."  | tee -a $LOG_FILE
+if [ $cart_id -ne 0 ]; then
+    echo "please enter root cart environment..."  | tee -a $LOG_FILE
     exit 1
 fi
 
@@ -31,29 +31,28 @@ validate $? "creating app directory "
 
 id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
+    cartadd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     validate $? "creating user "
 else
     echo "user already exist"
-fi
 
-curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>> $LOG_FILE
-validate $? "downloading user files "
+curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOG_FILE
+validate $? "downloading cart files "
 
 cd /app
-validate $? "moving to app directory "
+valiadte $? "moving to app directory "
 
-unzip /tmp/user.zip &>> $LOG_FILE
+unzip /tmp/cart.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
 npm install &>> $LOG_FILE
 validate $? "installing dependencies "
 
 
-cp $SCRIPT_DIR/user.repo /etc/systemd/system/user.service
+cp $SCRIPT_DIR/cart.repo /etc/systemd/system/cart.service
 validate $? "changing system services "
 
 systemctl daemon-reload
-systemctl enable user &>> $LOG_FILE
-systemctl start user &>> $LOG_FILE
-validate $? "enable & start user  "
+systemctl enable cart &>> $LOG_FILE
+systemctl start cart &>> $LOG_FILE
+validate $? "enable & start cart  "
