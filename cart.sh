@@ -4,7 +4,7 @@ mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/$0.log"
 SCRIPT_DIR=$PWD
 
-if [ $cart_id -ne 0 ]; then
+if [ $user_id -ne 0 ]; then
     echo "please enter root cart environment..."  | tee -a $LOG_FILE
     exit 1
 fi
