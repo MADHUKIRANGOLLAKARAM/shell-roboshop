@@ -33,8 +33,7 @@ fi
 mkdir -p /app
 validate $? "creating app directory "
 
-curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOG_FILE &>> $LOG_FILE
-validate $? "downloading user files "
+curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>> $LOG_FILE
 
 cd /app
 validate $? "moving to app directory "
@@ -42,7 +41,7 @@ validate $? "moving to app directory "
 rm -rf /app/*
 validate $? "remove everything "
 
-unzip /tmp/shipping.zip &>> $LOG_FILE &>> $LOG_FILE
+unzip /tmp/shipping.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
 mvn clean package &>> $LOG_FILE
@@ -66,8 +65,8 @@ validate $? "installing mysql "
 mysql -h 172.31.18.195 -uroot -pRoboshop@1 -e "show databases" | grep cities
 if [ $? -ne 0 ]; then
     mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
-    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
-    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
+    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/app-user.sql &>> $LOG_FILE 
+    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/master-data.sql &>> $LOG_FILE 
     validate $? "loading data to mysql "
 else
     echo -e "data is already loaded..."
