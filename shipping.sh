@@ -41,7 +41,7 @@ validate $? "moving to app directory "
 rm -rf /app/*
 validate $? "remove everything "
 
-unzip /tmp/user.zip &>> $LOG_FILE &>> $LOG_FILE
+unzip /tmp/shipping.zip &>> $LOG_FILE &>> $LOG_FILE
 validate $? "unzipping the code "
 
 mvn clean package &>> $LOG_FILE
