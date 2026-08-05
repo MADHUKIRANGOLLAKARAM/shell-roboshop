@@ -41,7 +41,7 @@ curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>
 validate $? "downloading cart files "
 
 cd /app
-valiadte $? "moving to app directory "
+validate $? "moving to app directory "
 
 rm -rf /app/*
 validate $? "remove default content"
