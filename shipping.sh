@@ -3,6 +3,7 @@ user_id=$(id -u)
 LOGS_FOLDER="/var/log/shell-roboshop"
 mkdir -p $LOGS_FOLDER
 LOG_FILE="$LOGS_FOLDER/$0.log"
+SCRIPT_DIR=$PWD
 
 
 if [ $user_id -ne 0 ]; then
@@ -62,7 +63,7 @@ validate $? "enable & start shipping  "
 dnf install mysql -y &>> $LOG_FILE
 validate $? "installing mysql "
 
-mysql -h 172.31.18.195 -uroot -pRoboshop@1 -e 'use cities'
+mysql -h 172.31.18.195 -uroot -pRoboshop@1 -e "show databases" | grep cities
 if [ $? -ne 0 ]; then
     mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
     mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
