@@ -43,6 +43,9 @@ validate $? "downloading user files "
 cd /app
 validate $? "moving to app directory "
 
+rm -rf /app/*
+validate $? "remove everything "
+
 unzip /tmp/user.zip &>> $LOG_FILE
 validate $? "unzipping the code "
 
