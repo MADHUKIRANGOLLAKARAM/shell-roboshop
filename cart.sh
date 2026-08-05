@@ -31,7 +31,7 @@ validate $? "creating app directory "
 
 id roboshop &>> $LOG_FILE
 if [ $? -ne 0 ]; then
-    cartadd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
     validate $? "creating user "
 else
     echo "user already exist"
