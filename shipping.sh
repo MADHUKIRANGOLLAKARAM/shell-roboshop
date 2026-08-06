@@ -27,7 +27,7 @@ if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     validate $? "user created "
 else
-    echo "user already existing"
+    echo "user already exist skipping..."
 fi
 
 mkdir -p /app
@@ -60,16 +60,22 @@ systemctl start shipping &>> $LOG_FILE
 validate $? "enable & start shipping  "
 
 dnf install mysql -y &>> $LOG_FILE
-validate $? "installing mysql "
+validate $? "installing mysql"
 
-mysql -h 172.31.18.195 -uroot -pRoboshop@1 -e "show databases" | grep cities
+# Check whether shipping user exists in MySQL
+mysql -h 172.31.18.195 -uroot -pRoboshop@1 \
+-e "SELECT User FROM mysql.user WHERE User='shipping';" | grep shipping &>> $LOG_FILE
+
 if [ $? -ne 0 ]; then
-    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE 
-    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/app-user.sql &>> $LOG_FILE 
-    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/master-data.sql &>> $LOG_FILE 
-    validate $? "loading data to mysql "
+    echo "Loading Shipping Database..." | tee -a $LOG_FILE
+
+    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/schema.sql &>> $LOG_FILE
+    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/app-user.sql &>> $LOG_FILE
+    mysql -h 172.31.18.195 -uroot -pRoboshop@1 < /app/db/master-data.sql &>> $LOG_FILE
+
+    validate $? "loading data to mysql"
 else
-    echo -e "data is already loaded..."
+    echo "Shipping MySQL user already exists. Skipping database load..." | tee -a $LOG_FILE
 fi
 
 systemctl enable shipping &>> $LOG_FILE
